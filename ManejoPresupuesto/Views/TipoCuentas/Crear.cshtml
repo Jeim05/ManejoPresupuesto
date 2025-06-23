@@ -8,3 +8,17 @@
 <h5>El tipo de cuenta se refiere a como podemos agrupar cuentas
     Ejemplos: Préstamos, tarjetas de crédito
 </h5>
+
+@* El tagHelper asp-validation-summary se utiliza para validar los campos en el formulario  *@
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<form asp-controller="TipoCuentas" asp-action="Crear">
+    <div class="mb-3">
+        @* Con el asp-for lo que hacemos es que si no se cumple la validación entonces, no se borra lo escrito *@
+        <label asp-for="Nombre" class="form-label"></label>
+        <input type="text" asp-for="Nombre" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+
+
