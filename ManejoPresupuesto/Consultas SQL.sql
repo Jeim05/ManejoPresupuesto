@@ -20,3 +20,8 @@ CREATE TABLE TipoOperaciones(
  Descripcion nvarchar(50) NOT NULL
 )
 
+
+SELECT Tipo.Id, UsuarioId from Transacciones 
+INNER JOIN TipoTransacciones as Tipo ON Tipo.Id = Transacciones.Id
+
+DELETE Transacciones 
