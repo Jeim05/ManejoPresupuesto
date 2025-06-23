@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ManejoPresupuesto.Validaciones;
+using System.ComponentModel.DataAnnotations;
 
 namespace ManejoPresupuesto.Models
 {
@@ -7,15 +8,14 @@ namespace ManejoPresupuesto.Models
         public int IdTipoCuenta { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es requerido")] // Esto se utiliza para validar que el campo no este vacio
-        [StringLength(maximumLength:50,MinimumLength =3, ErrorMessage = "La longitud del campo {0} debe estar entre {2} y {1}")]
-        [Display(Name = "Nombre del tipo de cuenta")]
+        [PrimeraLetraMayuscula]
         public string Nombre { get; set; }
 
         public int UsuarioId { get; set; }
 
         public int Orden { get; set; }
 
-        /* PRUEBAS DE OTRAS VALIDACIONES POR DEFECTO */
+        /* PRUEBAS DE OTRAS VALIDACIONES POR DEFECTO 
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [EmailAddress(ErrorMessage = "El campo debe ser un correo electrónico valido")]
         public string Email { get; set; }
@@ -29,5 +29,6 @@ namespace ManejoPresupuesto.Models
         [CreditCard(ErrorMessage ="La tarjeta de crédito no es valida")]
         [Display(Name = "Tarjeta de crédito") ]
         public string TarjetaDeCredito { get; set; }
+        */
     }
 }
