@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using ManejoPresupuesto.Models;
 using Microsoft.Data.SqlClient;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ManejoPresupuesto.Servicios
 {
@@ -11,6 +12,7 @@ namespace ManejoPresupuesto.Servicios
     {
         Task Crear(TipoCuenta tipoCuenta);
         Task<bool> Existe(string nombre, int usuarioId);
+        Task<IEnumerable<TipoCuenta>> Obtener(int UsuarioId);
     }
 
     public class RepositorioTiposCuenta:IRepositorioTiposCuentas
@@ -43,6 +45,15 @@ namespace ManejoPresupuesto.Servicios
                                                                            WHERE Nombre = @Nombre AND UsuarioId = @UsuarioId;",
                                                                         new {nombre,usuarioId});
             return existe == 1;
+        }
+
+        public async Task<IEnumerable<TipoCuenta>> Obtener(int UsuarioId)
+        {
+            using var connection = new SqlConnection(connectionString);
+            return await connection.QueryAsync<TipoCuenta>(@"SELECT IdTipoCuenta, Nombre, Orden
+                                                           FROM TipoCuenta
+                                                           WHERE UsuarioId = @UsuarioId",
+                                                           new { UsuarioId });
         }
     }
 }
