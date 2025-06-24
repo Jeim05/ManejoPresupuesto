@@ -1,13 +1,22 @@
-﻿using ManejoPresupuesto.Models;
+﻿using Dapper;
+using ManejoPresupuesto.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 
 namespace ManejoPresupuesto.Controllers
 {
     public class TipoCuentasController : Controller
     {
+        private readonly string connectionString;
+
+        public TipoCuentasController(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
         public IActionResult Crear()
         {
-            return View();
+                return View();
         }
 
         [HttpPost]
