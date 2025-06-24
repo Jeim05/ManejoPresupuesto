@@ -1,4 +1,5 @@
 ﻿using ManejoPresupuesto.Validaciones;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace ManejoPresupuesto.Models
@@ -9,6 +10,7 @@ namespace ManejoPresupuesto.Models
 
         [Required(ErrorMessage = "El campo {0} es requerido")] // Esto se utiliza para validar que el campo no este vacio
         [PrimeraLetraMayuscula]
+        [Remote(action:"VerificarExisteTipoCuenta",controller:"TipoCuentas")]
         public string Nombre { get; set; }
 
         public int UsuarioId { get; set; }

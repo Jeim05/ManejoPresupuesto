@@ -43,5 +43,22 @@ namespace ManejoPresupuesto.Controllers
 
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> VerificarExisteTipoCuenta(string nombre)
+        {
+            // Este método lo que hace es una verificación previa de la existencia
+            // del tipo de cuenta y luego se usa en el modelo, para que cuando escriba 
+            // en el input y pierda el foco entonces salga el mensaje
+            var usuarioId = 1;
+            var yaExisteTipoCuenta = await repositorioTiposCuentas.Existe(nombre, usuarioId);
+
+            if (yaExisteTipoCuenta)
+            {
+                return Json($"El nombre {nombre} ya existe");
+            }
+
+            return Json(true);
+        }
     }
 }
