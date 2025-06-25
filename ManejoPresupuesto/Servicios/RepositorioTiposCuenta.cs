@@ -11,6 +11,7 @@ namespace ManejoPresupuesto.Servicios
     public interface IRepositorioTiposCuentas
     {
         Task Actualizar(TipoCuenta tipoCuenta);
+        Task Borrar(int Id);
         Task Crear(TipoCuenta tipoCuenta);
         Task<bool> Existe(string nombre, int usuarioId);
         Task<IEnumerable<TipoCuenta>> Obtener(int UsuarioId);
@@ -62,19 +63,26 @@ namespace ManejoPresupuesto.Servicios
         {
             using var connection = new SqlConnection(connectionString);
             // con Excute vamos a ejecuatr un query que no va a retornar nada
-            await connection.ExecuteAsync(@"UPDATE TiposCuentas 
+            await connection.ExecuteAsync(@"UPDATE TipoCuenta 
                                           SET Nombre = @Nombre
-                                          WHERE Id = @Id", tipoCuenta);
+                                          WHERE IdTipoCuenta = @IdTipoCuenta ", tipoCuenta);
         }
 
         public async Task<TipoCuenta> ObtenerPorId(int Id, int UsuarioId)
         {
             using var connection = new SqlConnection(connectionString);
             return await connection.QueryFirstOrDefaultAsync<TipoCuenta>(@"
-                                                                    SELECT Id, Nombre, Orden 
-                                                                    FROM TipoCuentas
-                                                                    WHERE Id = @Id AND UsuarioId = @UsuarioId",
+                                                                    SELECT IdTipoCuenta, Nombre, Orden 
+                                                                    FROM TipoCuenta
+                                                                    WHERE IdTipoCuenta = @Id AND UsuarioId = @UsuarioId",
                                                                      new {Id, UsuarioId});
+        }
+
+        public async Task Borrar(int Id)
+        {
+            using var connection = new SqlConnection(connectionString);
+
+            await connection.ExecuteAsync("DELETE TipoCuenta WHERE IdTipoCuenta = @Id", new { Id });
         }
         
     }
