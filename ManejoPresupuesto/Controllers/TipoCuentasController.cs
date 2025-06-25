@@ -9,15 +9,18 @@ namespace ManejoPresupuesto.Controllers
     public class TipoCuentasController : Controller
     {
         private readonly IRepositorioTiposCuentas repositorioTiposCuentas;
+        private readonly IServicioUsuarios servicioUsuarios;
 
-        public TipoCuentasController(IRepositorioTiposCuentas repositorioTiposCuentas)
+        public TipoCuentasController(IRepositorioTiposCuentas repositorioTiposCuentas,
+                                      IServicioUsuarios servicioUsuarios)
         {
             this.repositorioTiposCuentas = repositorioTiposCuentas;
+            this.servicioUsuarios = servicioUsuarios;
         }
 
         public async Task<IActionResult> Index()
         {
-            var usuarioId = 1;
+            var usuarioId = servicioUsuarios.obtenerUsuarioId();
             var tiposCuentas = await repositorioTiposCuentas.Obtener(usuarioId);
             return View(tiposCuentas);
         }
@@ -36,7 +39,7 @@ namespace ManejoPresupuesto.Controllers
                 return View(tipoCuenta);
             }
 
-            tipoCuenta.UsuarioId = 1;
+            tipoCuenta.UsuarioId = servicioUsuarios.obtenerUsuarioId();
 
             var yaExisteTipoCuenta = await repositorioTiposCuentas.Existe(tipoCuenta.Nombre, tipoCuenta.UsuarioId);
 
@@ -57,7 +60,7 @@ namespace ManejoPresupuesto.Controllers
             // Este método lo que hace es una verificación previa de la existencia
             // del tipo de cuenta y luego se usa en el modelo, para que cuando escriba 
             // en el input y pierda el foco entonces salga el mensaje
-            var usuarioId = 1;
+            var usuarioId = servicioUsuarios.obtenerUsuarioId();
             var yaExisteTipoCuenta = await repositorioTiposCuentas.Existe(nombre, usuarioId);
 
             if (yaExisteTipoCuenta)
