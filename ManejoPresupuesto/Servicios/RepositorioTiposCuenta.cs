@@ -71,6 +71,7 @@ namespace ManejoPresupuesto.Servicios
         public async Task<TipoCuenta> ObtenerPorId(int Id, int UsuarioId)
         {
             using var connection = new SqlConnection(connectionString);
+
             return await connection.QueryFirstOrDefaultAsync<TipoCuenta>(@"
                                                                     SELECT IdTipoCuenta, Nombre, Orden 
                                                                     FROM TipoCuenta
@@ -82,7 +83,7 @@ namespace ManejoPresupuesto.Servicios
         {
             using var connection = new SqlConnection(connectionString);
 
-            await connection.ExecuteAsync("DELETE TipoCuenta WHERE IdTipoCuenta = @Id", new { Id });
+            await connection.ExecuteAsync("DELETE TipoCuenta WHERE IdTipoCuenta = @IdTipoCuenta", new { Id });
         }
         
     }
