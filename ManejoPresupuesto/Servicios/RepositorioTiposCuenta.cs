@@ -10,9 +10,11 @@ namespace ManejoPresupuesto.Servicios
 
     public interface IRepositorioTiposCuentas
     {
+        Task Actualizar(TipoCuenta tipoCuenta);
         Task Crear(TipoCuenta tipoCuenta);
         Task<bool> Existe(string nombre, int usuarioId);
         Task<IEnumerable<TipoCuenta>> Obtener(int UsuarioId);
+        Task<TipoCuenta> ObtenerPorId(int Id, int UsuarioId);
     }
 
     public class RepositorioTiposCuenta:IRepositorioTiposCuentas
@@ -55,5 +57,25 @@ namespace ManejoPresupuesto.Servicios
                                                            WHERE UsuarioId = @UsuarioId",
                                                            new { UsuarioId });
         }
+
+        public async Task Actualizar(TipoCuenta tipoCuenta)
+        {
+            using var connection = new SqlConnection(connectionString);
+            // con Excute vamos a ejecuatr un query que no va a retornar nada
+            await connection.ExecuteAsync(@"UPDATE TiposCuentas 
+                                          SET Nombre = @Nombre
+                                          WHERE Id = @Id", tipoCuenta);
+        }
+
+        public async Task<TipoCuenta> ObtenerPorId(int Id, int UsuarioId)
+        {
+            using var connection = new SqlConnection(connectionString);
+            return await connection.QueryFirstOrDefaultAsync<TipoCuenta>(@"
+                                                                    SELECT Id, Nombre, Orden 
+                                                                    FROM TipoCuentas
+                                                                    WHERE Id = @Id AND UsuarioId = @UsuarioId",
+                                                                     new {Id, UsuarioId});
+        }
+        
     }
 }

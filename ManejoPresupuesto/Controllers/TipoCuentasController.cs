@@ -55,6 +55,20 @@ namespace ManejoPresupuesto.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult> Editar(int id)
+        {
+            var usuarioId = servicioUsuarios.obtenerUsuarioId();
+            var tipoCuenta = await repositorioTiposCuentas.ObtenerPorId(id, usuarioId);
+
+            if (tipoCuenta is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+            
+            return View(tipoCuenta);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> VerificarExisteTipoCuenta(string nombre)
         {
             // Este método lo que hace es una verificación previa de la existencia
