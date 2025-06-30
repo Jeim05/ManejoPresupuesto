@@ -97,17 +97,17 @@ namespace ManejoPresupuesto.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> BorrarTipoCuenta(int id)
+        public async Task<IActionResult> BorrarTipoCuenta(int IdTipoCuenta)
         {
             var usuarioId = servicioUsuarios.obtenerUsuarioId();
-            var tipoCuenta = await repositorioTiposCuentas.ObtenerPorId(id, usuarioId);
+            var tipoCuenta = await repositorioTiposCuentas.ObtenerPorId(IdTipoCuenta, usuarioId);
 
             if (tipoCuenta is null)
             {
                 return RedirectToAction("NoEncontrado", "Home");
             }
 
-            await repositorioTiposCuentas.Borrar(id);
+            await repositorioTiposCuentas.Borrar(IdTipoCuenta);
             return RedirectToAction("Index");
 
         }

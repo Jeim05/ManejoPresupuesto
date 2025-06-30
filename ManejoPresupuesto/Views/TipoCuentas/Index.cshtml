@@ -17,14 +17,15 @@
         </tr>
     </thead>
     <tbody>
-        @foreach(var tipoCuentas in Model)
+        @foreach(var tipoCuenta in Model)
         {
             <tr>
                 <td>
-                    <a class="btn btn-primary" asp-action="Editar" asp-route-id="@tipoCuentas.IdTipoCuenta">Editar</a>
-                    <a class="btn btn-danger" asp-action="Borrar" asp-route-id="@tipoCuentas.IdTipoCuenta">Borrar</a>
+                    <a class="btn btn-primary" asp-action="Editar" asp-route-id="@tipoCuenta.IdTipoCuenta">Editar</a>
+                    <a class="btn btn-danger" asp-action="Borrar" asp-route-id="@tipoCuenta.IdTipoCuenta">Borrar</a>
                 </td>
-                <td>@tipoCuentas.Nombre</td>
+                <td>@tipoCuenta.IdTipoCuenta</td>
+                <td>@tipoCuenta.Nombre</td>
             </tr>
         }
     </tbody>

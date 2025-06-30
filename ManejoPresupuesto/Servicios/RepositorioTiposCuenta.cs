@@ -79,11 +79,11 @@ namespace ManejoPresupuesto.Servicios
                                                                      new {Id, UsuarioId});
         }
 
-        public async Task Borrar(int Id)
+        public async Task Borrar(int IdTipoCuenta)
         {
             using var connection = new SqlConnection(connectionString);
 
-            await connection.ExecuteAsync("DELETE TipoCuenta WHERE IdTipoCuenta = @IdTipoCuenta", new { Id });
+            await connection.ExecuteAsync("DELETE TipoCuenta WHERE IdTipoCuenta = @IdTipoCuenta", new { IdTipoCuenta });
         }
         
     }
