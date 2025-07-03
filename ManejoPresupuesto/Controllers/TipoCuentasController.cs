@@ -28,7 +28,7 @@ namespace ManejoPresupuesto.Controllers
 
         public IActionResult Crear()
         {
-                return View();
+            return View();
         }
 
         [HttpPost]
@@ -65,7 +65,7 @@ namespace ManejoPresupuesto.Controllers
             {
                 return RedirectToAction("NoEncontrado", "Home");
             }
-            
+
             return View(tipoCuenta);
         }
 
@@ -127,6 +127,28 @@ namespace ManejoPresupuesto.Controllers
             }
 
             return Json(true);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Ordenar([FromBody] int[] ids)
+        {
+            var usuarioId = servicioUsuarios.obtenerUsuarioId();
+            var tiposCuentas = await repositorioTiposCuentas.Obtener(usuarioId);
+            var idsTiposCuentas = tiposCuentas.Select(x => x.IdTipoCuenta); // Uso de Linq
+
+            var idsTiposCuentasNoPertenecenAlUsuario = ids.Except(idsTiposCuentas).ToList();
+
+            if (idsTiposCuentasNoPertenecenAlUsuario.Count > 0)
+            {
+                return Forbid(); // Prohibir
+            }
+
+            var tiposCuentasOrdenados = ids.Select((valor, indice) =>
+            new TipoCuenta() { IdTipoCuenta = valor, Orden = indice + 1 }).AsEnumerable();
+
+            await repositorioTiposCuentas.Ordenar(tiposCuentasOrdenados);
+
+            return Ok();
         }
     }
 }
