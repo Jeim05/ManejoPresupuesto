@@ -10,6 +10,7 @@ namespace ManejoPresupuesto.Controllers
     {
         private readonly IRepositorioTiposCuentas repositorioTiposCuentas;
         private readonly IServicioUsuarios servicioUsuarios;
+        private readonly IRepositorioCuentas repositorioCuentas;
 
         public CuentasController(IRepositorioTiposCuentas repositorioTiposCuentas,
                                  IServicioUsuarios servicioUsuarios)
